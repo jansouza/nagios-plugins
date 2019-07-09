@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# 
+#
 # ======================= SUMMARY ================================
 #
 # Program : check_redis.py
@@ -85,9 +85,9 @@ def convert_to_days(seconds):
     return "%s days, %s hours, %s minutes" % (days, hours, minutes)
 
 
-def get_args(): 
+def get_args():
    """
-   Supports the command-line arguments listed below. 
+   Supports the command-line arguments listed below.
    """
    parser = argparse.ArgumentParser(description="Redis Check for Nagios")
    parser._optionals.title = "Options"
@@ -100,7 +100,7 @@ def get_args():
 
    parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
-   
+
    args = parser.parse_args()
    return args
 
@@ -140,7 +140,7 @@ def main():
 
    # Setting output format for Nagios
    logging.basicConfig(stream=sys.stdout,format='%(levelname)s - %(message)s',level=log_level)
-  
+
    ############
    #GET DATA
    ###########
@@ -170,7 +170,7 @@ def main():
    uptime = stats["uptime_in_seconds"]
    uptime_days = convert_to_days(int(uptime))
    version = stats["redis_version"]
-  
+
    redis_info="redis %s on %s:%s, up %s" % (version,host,port,uptime_days)
 
    #
@@ -188,7 +188,7 @@ def main():
        hit_rate = round( float(keyspace_hits) * 100 / float(keyspace_hits + keyspace_misses), 2)
    except ZeroDivisionError:
        hit_rate = 100
-   
+
    ############
    #perfdata
    ###########
@@ -226,14 +226,14 @@ def main():
 
    #last_save_time
    if args.last_save_time:
-	   last_save_time = time.time() - rdb_last_save_time
-	   mylogger.debug("Last Save Time:%s -  WARN: %s, CRIT %s " % (last_save_time,last_save_time_warn,last_save_time_crit) )
+	   last_save_time = int(time.time() - rdb_last_save_time)
+	   mylogger.debug("Last Save Time: %ss -  WARN: %s, CRIT %s " % (last_save_time,last_save_time_warn,last_save_time_crit) )
 
-	   if (int(last_save_time) >= int(last_save_time_crit)) :
-	       mylogger.critical("last_save_time %s > %s" % (last_save_time,last_save_time_crit) + " - " + output )
+	   if (last_save_time >= int(last_save_time_crit)) :
+	       mylogger.critical("last_save_time %ss > %s" % (last_save_time,last_save_time_crit) + " - " + output )
 	       sys.exit(CRITICAL)
-	   elif (int(last_save_time) >= int(last_save_time_warn)) :
-	       mylogger.warning("last_save_time %s > %s" % (last_save_time,last_save_time_warn) + " - " + output )
+	   elif (last_save_time >= int(last_save_time_warn)) :
+	       mylogger.warning("last_save_time %ss > %s" % (last_save_time,last_save_time_warn) + " - " + output )
 	       sys.exit(WARNING)
 
    mylogger.info(output)
