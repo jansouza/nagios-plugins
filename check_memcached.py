@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# 
+#
 # ======================= SUMMARY ================================
 #
 # Program : check_memcached.py
@@ -47,7 +47,7 @@
 import argparse
 import logging
 import os, sys, time
-import re, telnetlib 
+import re, telnetlib
 
 # NAGIOS return codes :
 # https://nagios-plugins.org/doc/guidelines.html#AEN78
@@ -59,7 +59,7 @@ UNKNOWN  = 3
 mylogger = logging.getLogger(__name__)
 
 class MemcachedStats:
-    
+
     _client = None
     _key_regex = re.compile(r'ITEM (.*) \[(.*); (.*)\]')
     _slab_regex = re.compile(r'STAT items:(.*):number')
@@ -125,9 +125,9 @@ def convert_to_days(seconds):
     return "%s days, %s hours, %s minutes" % (days, hours, minutes)
 
 
-def get_args(): 
+def get_args():
    """
-   Supports the command-line arguments listed below. 
+   Supports the command-line arguments listed below.
    """
    parser = argparse.ArgumentParser(description="Memcache Check for Nagios")
    parser._optionals.title = "Options"
@@ -140,7 +140,7 @@ def get_args():
 
    parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
-   
+
    args = parser.parse_args()
    return args
 
@@ -181,7 +181,7 @@ def main():
 
    # Setting output format for Nagios
    logging.basicConfig(stream=sys.stdout,format='%(levelname)s - %(message)s',level=log_level)
-  
+
    ############
    #GET DATA
    ###########
@@ -256,7 +256,7 @@ def main():
    perfdata= "response_time=%s hit_rate=%s curr_connections=%s utilization=%s evictions=%s" % (resp_time_data,hit_rate,curr_connections,uti_data,evictions)
 
    output = memcache_info + " | " + perfdata;
- 
+
    ############
    #Threshold
    ###########
@@ -285,13 +285,12 @@ def main():
 	   if (utilization >= uti_crit) :
 	       mylogger.critical("utilization %s > %s" % (utilization,uti_crit) + " - " + output )
 	       sys.exit(CRITICAL)
-	   elif (utilization >= uti_warn and resp_time < uti_crit) :
+	   elif (utilization >= uti_warn) :
 	       mylogger.warning("utilization %s > %s" % (utilization,uti_warn) + " - " + output )
 	       sys.exit(WARNING)
 
    mylogger.info(output)
    sys.exit(OK)
-
 
 if __name__ == "__main__":
    main()
