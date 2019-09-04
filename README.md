@@ -86,12 +86,12 @@ Options:
   -t TIMEOUT            Connection TimeOut
   -v, --verbose         Enable verbose output
 
- Ex.:
-    Response Time Threshold. Below it is  >0.1s for WARNING, >0.2s for critical
-    Current Connections Threshold. Below it is >100 for warning, >200 for critical
-    Idle Workers Threshold. Below it is <30 for warning, <10 for critical
+Ex.:
+ Response Time Threshold. Below it is  >0.1s for WARNING, >0.2s for critical
+ Current Connections Threshold. Below it is >100 for warning, >200 for critical
+ Idle Workers Threshold. Below it is <30 for warning, <10 for critical
 
-    ./check_nginx.py -H 127.0.0.1 -p 80 -u /nginx_status -T 0.1 0.2 -C 100 200 -I 30 10
+ ./check_nginx.py -H 127.0.0.1 -p 80 -u /nginx_status -T 0.1 0.2 -C 100 200 -I 30 10
 
 ```
 
@@ -103,6 +103,7 @@ This plugin also collection information about performance data from Nginx server
    - requests_per_conn
 
    ![nginx-active](https://github.com/jansouza/nagios-plugins/blob/master/images/nginx-active.jpg)
+
 
 ## Tomcat Check plugin
 This is Tomcat Check plugin. It gets stats variables and allows to set thresholds
@@ -133,25 +134,25 @@ Options:
   -t TIMEOUT            Connection TimeOut
   -v, --verbose         Enable verbose output
 
- Ex.:
-    Response Time Threshold. Below it is >0.3s for WARNING, >0.5s for critical
-    Memory Heap  Threshold. Below it is >80% for WARNING, >90% for critical
-    Threads Busy Threshold. Below it is >80% for warning, >90% for critical
+Ex.:
+ Response Time Threshold. Below it is >0.3s for WARNING, >0.5s for critical
+ Memory Heap  Threshold. Below it is >80% for WARNING, >90% for critical
+ Threads Busy Threshold. Below it is >80% for warning, >90% for critical
 
-    ./check_tomcat.py -H 127.0.0.1 -a dG9tY2F0OnRvbWNhdA== -T 0.3 0.5 -M 80 90 -C 80 90
+ ./check_tomcat.py -H 127.0.0.1 -a dG9tY2F0OnRvbWNhdA== -T 0.3 0.5 -M 80 90 -C 80 90
 
 ```
 
 #### Tomcat - PNP4Nagios
 This plugin also collection information about performance data from tomcat server, that can be used by PNP4Nagios
 
-    - response_time
-    - mem_used
-    - heap_size
-    - percent_thread
-    - busy_thread
+   - response_time
+   - mem_used
+   - heap_size
+   - percent_thread
+   - busy_thread
 
-     ![tomcat-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/tomcat-used_memory.jpg)
+   ![tomcat-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/tomcat-used_memory.jpg)
 
 
 ## Memcached Check plugin
