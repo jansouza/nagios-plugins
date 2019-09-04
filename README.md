@@ -96,14 +96,64 @@ Options:
 ```
 
 #### Nginx - PNP4Nagios
-This plugin also collection information about performance data from nginx server, that can be used by PNP4Nagios
+This plugin also collection information about performance data from Nginx server, that can be used by PNP4Nagios
 
       - response_time
       - active
       - requests_per_conn
 
       ![nginx-active](https://github.com/jansouza/nagios-plugins/blob/master/images/nginx-active.jpg)
-      
+
+## Tomcat Check plugin
+This is Tomcat Check plugin. It gets stats variables and allows to set thresholds
+on their value. It can measure response time, memory utilization,current connections, idle workers and other data.
+
+Used:
+```
+usage: check_tomcat.py [-h] [-H HOST] [-p PORT] [-U CONTEXT] -a BASIC_AUTH
+                       [-T RESPONSE_TIME RESPONSE_TIME] [-M MEM_USED MEM_USED]
+                       [-C THREADS_BUSY THREADS_BUSY] [-t TIMEOUT] [-v]
+
+TOMCAT Status Check for Nagios
+
+Options:
+  -h, --help            show this help message and exit
+  -H HOST               Hostname or IP Address to check
+  -p PORT               port number (default: 8080)
+  -U CONTEXT            Status URL Context
+  -a BASIC_AUTH         Authentication (use basic_encoder.py)
+  -T RESPONSE_TIME RESPONSE_TIME
+                        Measure the output connection response time in seconds
+                        -T [WARN,CRIT] Ex.: -T 0.1 0.5
+  -M MEM_USED MEM_USED  Measure the percent of used memory heap -M [WARN,CRIT]
+                        Ex.: -C 80 90
+  -C THREADS_BUSY THREADS_BUSY
+                        Measure the percent of Threads Busy -C [WARN,CRIT]
+                        Ex.: -C 80 90
+  -t TIMEOUT            Connection TimeOut
+  -v, --verbose         Enable verbose output
+
+ Ex.:
+    Response Time Threshold. Below it is >0.3s for WARNING, >0.5s for critical
+    Memory Heap  Threshold. Below it is >80% for WARNING, >90% for critical
+    Threads Busy Threshold. Below it is >80% for warning, >90% for critical
+
+    ./check_tomcat.py -H 127.0.0.1 -a dG9tY2F0OnRvbWNhdA== -T 0.3 0.5 -M 80 90 -C 80 90
+
+```
+
+#### Tomcat - PNP4Nagios
+This plugin also collection information about performance data from tomcat server, that can be used by PNP4Nagios
+
+    - response_time
+    - mem_used
+    - heap_size
+    - percent_thread
+    - busy_thread
+
+     ![tomcat-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/tomcat-used_memory.jpg)
+
+               
 ## Memcached Check plugin
 This is Memcached Check plugin. It gets stats variables and allows to set thresholds
 on their value. It can measure response time, calculate hitrate, memory utilization and other data.
