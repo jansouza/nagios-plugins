@@ -98,11 +98,11 @@ Options:
 #### Nginx - PNP4Nagios
 This plugin also collection information about performance data from Nginx server, that can be used by PNP4Nagios
 
-      - response_time
-      - active
-      - requests_per_conn
+   - response_time
+   - active
+   - requests_per_conn
 
-      ![nginx-active](https://github.com/jansouza/nagios-plugins/blob/master/images/nginx-active.jpg)
+   ![nginx-active](https://github.com/jansouza/nagios-plugins/blob/master/images/nginx-active.jpg)
 
 ## Tomcat Check plugin
 This is Tomcat Check plugin. It gets stats variables and allows to set thresholds
@@ -153,7 +153,7 @@ This plugin also collection information about performance data from tomcat serve
 
      ![tomcat-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/tomcat-used_memory.jpg)
 
-               
+
 ## Memcached Check plugin
 This is Memcached Check plugin. It gets stats variables and allows to set thresholds
 on their value. It can measure response time, calculate hitrate, memory utilization and other data.
