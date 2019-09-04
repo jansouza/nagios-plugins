@@ -37,7 +37,6 @@ Options:
   -t TIMEOUT            Connection TimeOut
   -v, --verbose         Enable verbose output
 
-
 Ex.:
  Response Time Threshold. Below it is  >0.1s for WARNING, >0.2s for critical
  Current Connections Threshold. Below it is >100 for warning, >200 for critical
@@ -59,6 +58,52 @@ This plugin also collection information about performance data from apache serve
    ![apache-busy_workers](https://github.com/jansouza/nagios-plugins/blob/master/images/apache-busy_workers.jpg)
    ![apache-requests_per_second](https://github.com/jansouza/nagios-plugins/blob/master/images/apache-requests_per_second.jpg)
 
+
+## Nginx Check plugin
+This is Nginx Check plugin. It gets stats variables and allows to set thresholds
+on their value. It can measure response time, active connections and other data.
+
+Used:
+```
+usage: check_nginx.py [-h] [-H HOST] [-p PORT] -u CONTEXT
+                      [-T RESPONSE_TIME RESPONSE_TIME]
+                      [-C CURRENT_CONN CURRENT_CONN] [--ssl] [-t TIMEOUT] [-v]
+
+NGINX Status Check for Nagios
+
+Options:
+  -h, --help            show this help message and exit
+  -H HOST               Hostname or IP Address to check
+  -p PORT               port number (default: 80)
+  -u CONTEXT            Status URL Context
+  -T RESPONSE_TIME RESPONSE_TIME
+                        Measure the output connection response time in seconds
+                        -T [WARN,CRIT] Ex.: -T 0.1 0.5
+  -C CURRENT_CONN CURRENT_CONN
+                        Measure the number of clients connections currently -C
+                        [WARN,CRIT] Ex.: -C 30 50
+  --ssl                 Enable SSL Request
+  -t TIMEOUT            Connection TimeOut
+  -v, --verbose         Enable verbose output
+
+ Ex.:
+    Response Time Threshold. Below it is  >0.1s for WARNING, >0.2s for critical
+    Current Connections Threshold. Below it is >100 for warning, >200 for critical
+    Idle Workers Threshold. Below it is <30 for warning, <10 for critical
+
+    ./check_nginx.py -H 127.0.0.1 -p 80 -u /nginx_status -T 0.1 0.2 -C 100 200 -I 30 10
+
+```
+
+#### Nginx - PNP4Nagios
+This plugin also collection information about performance data from nginx server, that can be used by PNP4Nagios
+
+      - response_time
+      - active
+      - requests_per_conn
+
+      ![nginx-active](https://github.com/jansouza/nagios-plugins/blob/master/images/nginx-active.jpg)
+      
 ## Memcached Check plugin
 This is Memcached Check plugin. It gets stats variables and allows to set thresholds
 on their value. It can measure response time, calculate hitrate, memory utilization and other data.
