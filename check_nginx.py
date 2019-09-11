@@ -37,7 +37,7 @@
 #
 #
 #  [0.1 - Jul 2019] First version of the code.
-#
+#  [0.2 - Sep 2019] Fix request timeout
 #
 #  TODO
 #     (a)
@@ -155,7 +155,7 @@ def main():
 
      url += host + ":" + port + context
      mylogger.debug("URL: %s" % (url))
-     res = requests.get(url, verify=False)
+     res = requests.get(url, verify=False, timeout=timeout)
 
      if res.status_code != 200:
         mylogger.critical(str(res.status_code) + " Found")

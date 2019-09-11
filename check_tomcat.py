@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_tomcat.py
-# Version : 0.1
+# Version : 0.2
 # Date    : Sep 02, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -39,6 +39,7 @@
 #
 #
 #  [0.1 - Sep 2019] First version of the code.
+#  [0.2 - Sep 2019] Fix request timeout
 #
 #
 #  TODO
@@ -182,7 +183,7 @@ def main():
 
      headers = {'Authorization': 'Basic %s' % basic_auth}
      mylogger.debug(headers)
-     res = requests.get(url, verify=False, headers=headers)
+     res = requests.get(url, verify=False, headers=headers, timeout=timeout)
 
      if res.status_code != 200:
         mylogger.critical(str(res.status_code) + " Found")

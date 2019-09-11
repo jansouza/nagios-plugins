@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_apache.py
-# Version : 0.1
+# Version : 0.2
 # Date    : Jul 07, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -38,6 +38,7 @@
 #
 #
 #  [0.1 - Jul 2019] First version of the code.
+#  [0.2 - Sep 2019] Fix request timeout | Fix get no status page
 #
 #
 #  TODO
@@ -132,6 +133,7 @@ def parserStatus(html):
               'idle_cleanup_of_worker': None,
               'open_slots': None}
 
+    key_count = 0
     for line in html.splitlines():
        items = line.split(': ')
 
@@ -143,26 +145,37 @@ def parserStatus(html):
 
        if key == 'ServerVersion':
            parsed['server_version'] = str(value)
+           key_count += 1
        if key == 'Total Accesses':
             parsed['total_accesses'] = int(value)
+            key_count += 1
        if key == 'Total Accesses':
             parsed['total_accesses'] = int(value)
+            key_count += 1
        if key == 'Total kBytes':
             parsed['total_kbytes'] = int(value)
+            key_count += 1
        if key == 'CPULoad':
             parsed['cpuload'] = float(value)
+            key_count += 1
        if key == 'Uptime':
             parsed['uptime'] = int(value)
+            key_count += 1
        if key == 'ReqPerSec':
             parsed['requests_per_second'] = float(value)
+            key_count += 1
        if key == 'BytesPerSec':
             parsed['bytes_per_second'] = float(value)
+            key_count += 1
        if key == 'BytesPerReq':
            parsed['bytes_per_request'] = float(value)
+           key_count += 1
        if key == 'BusyWorkers':
             parsed['busy_workers'] = int(value)
+            key_count += 1
        if key == 'IdleWorkers':
             parsed['idle_workers'] = int(value)
+            key_count += 1
        if key == 'Scoreboard':
             parsed['waiting_for_connection'] = value.count('_')
             parsed['starting_up'] = value.count('S')
@@ -175,8 +188,12 @@ def parserStatus(html):
             parsed['gracefully_finishing'] = value.count('G')
             parsed['idle_cleanup_of_worker'] = value.count('I')
             parsed['open_slots'] = value.count('.')
+            key_count += 1
 
-    return parsed
+    if (key_count < 3):
+       return None
+    else:
+       return parsed
 
 def main():
    # Handling arguments
@@ -240,7 +257,7 @@ def main():
 
      url += host + ":" + port + context + "?auto"
      mylogger.debug("URL: %s" % (url))
-     res = requests.get(url, verify=False)
+     res = requests.get(url, verify=False, timeout=timeout)
      end = time.time()
 
      if res.status_code != 200:
