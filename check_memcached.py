@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_memcached.py
-# Version : 0.1
+# Version : 0.2
 # Date    : Jul 07, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -37,6 +37,7 @@
 #
 #
 #  [0.1 - Jul 2019] First version of the code.
+#  [0.2 - sep 2019] Include debug to telnetlib
 #
 #
 #  TODO
@@ -65,16 +66,17 @@ class MemcachedStats:
     _slab_regex = re.compile(r'STAT items:(.*):number')
     _stat_regex = re.compile(r"STAT (.*) (.*)\r")
 
-    def __init__(self, host='localhost', port='11211', timeout=None):
+    def __init__(self, host='localhost', port='11211', timeout=None, log_level=0):
         self._host = host
         self._port = port
         self._timeout = timeout
+        self.log_level = log_level
 
     @property
     def client(self):
         if self._client is None:
-            self._client = telnetlib.Telnet(self._host, self._port,
-                                            self._timeout)
+            self._client = telnetlib.Telnet(self._host, self._port,self._timeout)
+            self._client.set_debuglevel(self.log_level)
         return self._client
 
     def command(self, cmd):
@@ -103,7 +105,6 @@ class MemcachedStats:
     def stats(self):
         ' Return a dict containing memcached stats '
         return dict(self._stat_regex.findall(self.command('stats')))
-
 
 def debug_factory(logger, debug_level):
    """
@@ -185,12 +186,16 @@ def main():
    ############
    #GET DATA
    ###########
+   telnet_debug = 0
+   if (verbose):
+     telnet_debug = 1
 
    resp_time=0
    try:
      mylogger.debug("Get Stats - HOSTNAME: %s PORT: %s TIMEOUT: %s" % (host,port,timeout))
      start = time.time()
-     mem = MemcachedStats(host, port,timeout)
+
+     mem = MemcachedStats(host, port, timeout,telnet_debug)
      stats = mem.stats()
      end = time.time()
      response_time = end - start
