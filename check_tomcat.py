@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_tomcat.py
-# Version : 0.2
+# Version : 0.3
 # Date    : Sep 02, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -40,6 +40,7 @@
 #
 #  [0.1 - Sep 2019] First version of the code.
 #  [0.2 - Sep 2019] Fix request timeout
+#  [0.3 - Sep 2019] Ajust perfdata output
 #
 #
 #  TODO
@@ -214,9 +215,9 @@ def main():
    status_memory = {}
    memory = tree_xml.find('.//memory')
 
-   free_memory  = float(memory.get('free'))
-   total_memory = float(memory.get('total'))
-   max_memory = float(memory.get('max'))
+   free_memory  = int(memory.get('free'))
+   total_memory = int(memory.get('total'))
+   max_memory = int(memory.get('max'))
    available_memory = free_memory + max_memory - total_memory
    used_memory = max_memory - available_memory
 
@@ -234,8 +235,8 @@ def main():
         connector_name = str(connector.get('name'))
         thread = connector.find('./threadInfo')
 
-        max_thread = float(thread.get('maxThreads'))
-        busy_thread = float(thread.get('currentThreadsBusy'))
+        max_thread = int(thread.get('maxThreads'))
+        busy_thread = int(thread.get('currentThreadsBusy'))
         percent_thread = round(float((busy_thread * 100)/max_thread),2)
 
         status_conn[connector_name] = [{'max_thread': max_thread}, {'busy_thread': busy_thread}, {'percent_thread': percent_thread}]
@@ -265,8 +266,8 @@ def main():
    used_memory = str(status_memory['used_memory'])
    max_memory = str(status_memory['max_memory'])
 
-   mem_used_data = str(percent_used_memory) + ";" + str(mem_warn_data) + ";" + str(mem_crit_data) + ";0"
-   heap_size_data = str(used_memory) + ";" + "0" + ";" + str(max_memory) + ";0"
+   mem_used_data = str(percent_used_memory) + "%;" + str(mem_warn_data) + ";" + str(mem_crit_data)
+   heap_size_data = str(used_memory) + ";;;" + str(max_memory)
 
    #Threads Busy
    threads_warn_data = ""
@@ -285,12 +286,12 @@ def main():
 
        connector_name = str(connector).replace("\"","")
 
-       threads_data += connector_name + "_percent_thread=" +  str(percent_thread) + ";" + str(threads_warn_data) + ";" + str(threads_crit_data) + ";0 "
-       threads2_data += connector_name + "_busy_thread=" +  str(busy_thread) + ";0;" + str(max_thread) + ";0 "
+       threads_data += "percent_used_thread-" + connector_name + "=" +  str(percent_thread) + "%;" + str(threads_warn_data) + ";" + str(threads_crit_data) + " "
+       threads2_data += "busy_thread-" + connector_name + "=" +  str(busy_thread) + ";;;" + str(max_thread) + " "
 
-   perfdata = "response_time=%s mem_used=%s heap_size=%s %s%s" % (resp_time_data,mem_used_data,heap_size_data,threads_data,threads2_data)
+   perfdata = "response_time=%s heap_percent_used=%s heap_size=%s %s%s" % (resp_time_data,mem_used_data,heap_size_data,threads_data,threads2_data)
 
-   output = str(res.request.url) + " - " + str(res.status_code) + " | " + perfdata
+   output = str(host + ":" + port + context) + " | " + perfdata
 
    ############
    #Threshold

@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 #
 # ======================= SUMMARY ================================
 #
 # Program : check_tomcat_dbcp.py
-# Version : 0.1
+# Version : 0.2
 # Date    : Sep 11, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -38,6 +38,7 @@
 #
 #
 #  [0.1 - Sep 2019] First version of the code.
+#  [0.2 - Sep 2019] Ajust perfdata output
 #
 #  TODO
 #
@@ -269,11 +270,10 @@ def main():
        app_name = str(context_name).replace("/","")
        pool_name = "dbcp_" + app_name
 
-       pool_used_perfdata += pool_name + "=" + pool_used_value + ";"+ pool_used_warn_data +";"+pool_used_crit_data + ";0.0 "
-       dbcp_perfdata += pool_name + "=" + str(numActive) + ";0;" +  str(maxTotal) + ";0 "
+       pool_used_perfdata += "percent_used-" + pool_name + "=" + pool_used_value + "%;"+ pool_used_warn_data +";"+pool_used_crit_data + " "
+       dbcp_perfdata += "used-" + pool_name + "=" + str(numActive) + ";;;" + str(maxTotal) + " "
 
    perfdata = "%s%s" % (pool_used_perfdata,dbcp_perfdata)
-
    output = str(host + ":" + port + context) + " | " + perfdata
 
    ############
