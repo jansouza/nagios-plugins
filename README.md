@@ -34,7 +34,7 @@ Options:
                         Measure the number of idle workers -I [WARN,CRIT] Ex.:
                         -I 5 1
   --ssl                 Enable SSL Request
-  -t TIMEOUT            Connection TimeOut
+  -t TIMEOUT            Connection Timeout
   -v, --verbose         Enable verbose output
 
 Ex.:
@@ -83,7 +83,7 @@ Options:
                         Measure the number of clients connections currently -C
                         [WARN,CRIT] Ex.: -C 30 50
   --ssl                 Enable SSL Request
-  -t TIMEOUT            Connection TimeOut
+  -t TIMEOUT            Connection Timeout
   -v, --verbose         Enable verbose output
 
 Ex.:
@@ -131,7 +131,7 @@ Options:
   -C THREADS_BUSY THREADS_BUSY
                         Measure the percent of Threads Busy -C [WARN,CRIT]
                         Ex.: -C 80 90
-  -t TIMEOUT            Connection TimeOut
+  -t TIMEOUT            Connection Timeout
   -v, --verbose         Enable verbose output
 
 Ex.:
@@ -155,6 +155,42 @@ This plugin also collection information about performance data from tomcat serve
    ![tomcat-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/tomcat-used_memory.jpg)
 
 
+## Tomcat DBCP Check plugin
+This is Tomcat DBCP (Database Connections Pool) check plugin. It gets stats variables and allows to set thresholds
+on their value. It can measure database pool utilization and other data.
+
+Used:
+```
+usage: check_tomcat_dbcp.py [-h] [-H HOST] [-p PORT] [-u CONTEXT] -a
+                            BASIC_AUTH -j JNDI_NAME [-U POOL_USED POOL_USED]
+                            [-t TIMEOUT] [-v]
+
+TOMCAT DBCP Status Check for Nagios
+
+Options:
+  -h, --help            show this help message and exit
+  -H HOST               Hostname or IP Address to check
+  -p PORT               port number (default: 8080)
+  -u CONTEXT            Status URL Context
+  -a BASIC_AUTH         Authentication (use basic_encoder.py)
+  -j JNDI_NAME          JNDI name
+  -U POOL_USED POOL_USED
+                        Measure the percent of used connections -U [WARN,CRIT]
+                        Ex.: -U 80 90
+  -t TIMEOUT            Connection Timeout
+  -v, --verbose         Enable verbose output
+
+
+Ex.:
+ Basic Authentication (use basic_encode.py)
+ JNDI Name
+ Database Pool Utilization Threshold. Below it is >80% for WARNING, >90% for critical
+ Others arguments. Below set connections Timeout
+
+  ./check_tomcat_dbcp.py -H 127.0.0.1 -p 8080 -a dG9tY2F0OnRvbWNhdA== -j JNDI_NAME -P 80 90 -T 30
+
+```
+
 ## Memcached Check plugin
 This is Memcached Check plugin. It gets stats variables and allows to set thresholds
 on their value. It can measure response time, calculate hitrate, memory utilization and other data.
@@ -177,7 +213,7 @@ Options:
   -U UTILIZATION UTILIZATION
                         This calculates percent of space in use, which is
                         bytes/limit_maxbytes -U [WARN,CRIT] Ex.: -U 95 98
-  -t TIMEOUT            Connection TimeOut
+  -t TIMEOUT            Connection Timeout
   -v, --verbose         Enable verbose output
 
 Ex.:
@@ -220,13 +256,13 @@ Options:
   -S LAST_SAVE_TIME LAST_SAVE_TIME
                         Check the number of seconds since the last save -S
                         [WARN,CRIT]. Ex. -S 3600 86400
-  -t TIMEOUT            Connection TimeOut
+  -t TIMEOUT            Connection Timeout
   -v, --verbose         Enable verbose output
 
 ```
 
 #### Redis - PNP4Nagios
-This plugin also collection information about performance data from memcached server, that can be used by PNP4Nagios
+This plugin also collection information about performance data from Redis server, that can be used by PNP4Nagios
 
    - response_time
    - used_memory
@@ -236,3 +272,33 @@ This plugin also collection information about performance data from memcached se
 
    ![redis-response-time](https://github.com/jansouza/nagios-plugins/blob/master/images/redis-response_time.jpg)
    ![redis-used_memory](https://github.com/jansouza/nagios-plugins/blob/master/images/redis-used_memory.jpg)
+
+## Apache Solr Check plugin
+This plugin checks Apache Solr status, measures memory heap utilization and if specified allows to set thresholds on one or more key data
+
+Used:
+```
+usage: check_solr.py [-h] [-H HOST] [-p PORT] [-a BASIC_AUTH]
+                     [-M MEM_USED MEM_USED] [-t TIMEOUT] [-v]
+
+Apache Solr Status Check for Nagios
+
+Options:
+  -h, --help            show this help message and exit
+  -H HOST               Hostname or IP Address to check
+  -p PORT               port number (default: 8983)
+  -a BASIC_AUTH         Authentication (use basic_encoder.py)
+  -M MEM_USED MEM_USED  Measure the percent of used memory heap -M [WARN,CRIT]
+                        Ex.: -C 80 90
+  -t TIMEOUT            Connection Timeout
+  -v, --verbose         Enable verbose output
+
+```
+
+#### Apache Solr - PNP4Nagios
+This plugin also collection information about performance data from Apache Solr server, that can be used by PNP4Nagios
+
+    - heap_percent_used
+    - heap_used
+
+    ![solr-heap_percent_used](https://github.com/jansouza/nagios-plugins/blob/master/images/solr-heap_percent_used.jpg)
