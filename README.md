@@ -298,7 +298,8 @@ Options:
 #### Apache Solr - PNP4Nagios
 This plugin also collection information about performance data from Apache Solr server, that can be used by PNP4Nagios
 
-    - heap_percent_used
-    - heap_used
+   - heap_percent_used
+   - heap_used
 
-    ![solr-heap_percent_used](https://github.com/jansouza/nagios-plugins/blob/master/images/solr-heap_percent_used.jpg)
+   ![solr-heap_percent_used](https://github.com/jansouza/nagios-plugins/blob/master/images/solr-heap_percent_used.jpg)
+   
