@@ -93,7 +93,7 @@ def get_args():
 
    parser.add_argument('-M', nargs=2, required=False, help='Measure the percent of used memory heap -M [WARN,CRIT] \n Ex.: -C 80 90', dest='mem_used', type=str)
 
-   parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
+   parser.add_argument('-t', nargs=1, required=False, help='Connection Timeout', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
 
    args = parser.parse_args()

@@ -139,7 +139,7 @@ def get_args():
    parser.add_argument('-T', nargs=2, required=False, help='Measure the output connection response time in seconds -T [WARN,CRIT] \n Ex.: -T 0.1 0.5', dest='response_time', type=str)
    parser.add_argument('-U', nargs=2, required=False, help='This calculates percent of space in use, which is bytes/limit_maxbytes -U [WARN,CRIT] \n Ex.: -U 95 98', dest='utilization', type=str)
 
-   parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
+   parser.add_argument('-t', nargs=1, required=False, help='Connection Timeout', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
 
    args = parser.parse_args()

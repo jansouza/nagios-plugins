@@ -79,7 +79,7 @@ def get_args():
    """
    Supports the command-line arguments listed below.
    """
-   parser = argparse.ArgumentParser(description="TOMCAT Status Check for Nagios")
+   parser = argparse.ArgumentParser(description="TOMCAT DBCP Status Check for Nagios")
    parser._optionals.title = "Options"
 
    parser.add_argument('-H', nargs=1, required=False, help='Hostname or IP Address to check', dest='host', type=str, default=['127.0.0.1'])
@@ -91,7 +91,7 @@ def get_args():
 
    parser.add_argument('-U', nargs=2, required=False, help='Measure the percent of used connections -U [WARN,CRIT] \n Ex.: -U 80 90', dest='pool_used', type=str)
 
-   parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
+   parser.add_argument('-t', nargs=1, required=False, help='Connection Timeout', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
 
    args = parser.parse_args()

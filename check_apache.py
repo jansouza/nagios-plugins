@@ -94,7 +94,7 @@ def get_args():
 
    parser.add_argument('--ssl', required=False, help='Enable SSL Request', dest='ssl', action='store_true')
 
-   parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
+   parser.add_argument('-t', nargs=1, required=False, help='Connection Timeout', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
 
    args = parser.parse_args()
