@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_solr.py
-# Version : 0.1
+# Version : 0.2
 # Date    : Sep 17, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -36,6 +36,7 @@
 #
 #
 #  [0.1 - Sep 2019] First version of the code.
+#  [0.2 - Sep 2019] Fix Authentication argument
 #
 #
 #  TODO
@@ -97,7 +98,7 @@ def get_args():
    parser.add_argument('-a', nargs=1, required=False, help='Authentication (use basic_encoder.py)', dest='basic_auth', type=str)
    parser.add_argument('-M', nargs=2, required=False, help='Measure the percent of used memory heap -M [WARN,CRIT] \n Ex.: -C 80 90', dest='mem_used', type=str)
 
-   parser.add_argument('-t', nargs=1, required=False, help='Connection TimeOut', dest='timeout', type=int)
+   parser.add_argument('-t', nargs=1, required=False, help='Connection Timeout', dest='timeout', type=int)
    parser.add_argument('-v', '--verbose', required=False, help='Enable verbose output', dest='verbose', action='store_true')
 
    args = parser.parse_args()
@@ -111,7 +112,8 @@ def main():
    port = args.port[0]
 
    #Authentication
-   basic_auth = args.basic_auth[0]
+   if args.basic_auth:
+     basic_auth = args.basic_auth[0]
 
    if args.mem_used:
        mem_used_warn   = args.mem_used[0]
@@ -149,8 +151,11 @@ def main():
      url = "http://" + host + ":" + port + "/solr/admin/info/system"
      mylogger.debug("URL: %s" % (url))
 
-     headers = {'Authorization': 'Basic %s' % basic_auth}
-     mylogger.debug(headers)
+     headers = None
+     if args.basic_auth:
+         headers = {'Authorization': 'Basic %s' % basic_auth}
+         mylogger.debug(headers)
+
      res = requests.get(url, verify=False, headers=headers, timeout=timeout)
 
      if res.status_code != 200:
