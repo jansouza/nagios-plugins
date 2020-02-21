@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_memcached.py
-# Version : 0.3
+# Version : 0.4
 # Date    : Jul 07, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -39,6 +39,7 @@
 #  [0.1 - Jul 2019] First version of the code.
 #  [0.2 - Sep 2019] Include debug to telnetlib
 #  [0.3 - Sep 2019] Ajust perfdata output
+#  [0.4 - Feb 2020] Ajust response time output
 #
 #  TODO
 #     (a) Support SASL Authentication
@@ -248,7 +249,7 @@ def main():
    if args.response_time:
       resp_warn_data = round(float(response_warn), 6)
       resp_crit_data = round(float(response_crit), 6)
-   resp_time_data = str(resp_time) + ";" + str(resp_warn_data) + ";" + str(resp_crit_data) + ";0.000000"
+   resp_time_data = str(resp_time) + "s;" + str(resp_warn_data) + ";" + str(resp_crit_data) + ";0.000000"
 
    #Utilization
    uti_warn_data = ""
