@@ -218,7 +218,7 @@ def main():
    context = args.context[0]
 
    ssl = args.ssl
-   if ssl:
+   if ssl and port == "80" :
        port = "443"
 
    timeout = 10
