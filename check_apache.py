@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_apache.py
-# Version : 0.2
+# Version : 0.3
 # Date    : Jul 07, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -39,6 +39,7 @@
 #
 #  [0.1 - Jul 2019] First version of the code.
 #  [0.2 - Sep 2019] Fix request timeout | Fix get no status page
+#  [0.3 - Apr 2020] Fix SSL port
 #
 #
 #  TODO
