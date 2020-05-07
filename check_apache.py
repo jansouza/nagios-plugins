@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_apache.py
-# Version : 0.3
+# Version : 0.4
 # Date    : Jul 07, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -40,6 +40,7 @@
 #  [0.1 - Jul 2019] First version of the code.
 #  [0.2 - Sep 2019] Fix request timeout | Fix get no status page
 #  [0.3 - Apr 2020] Fix SSL port
+#  [0.4 - May 2020] Fix Request Log Level
 #
 #
 #  TODO
@@ -65,8 +66,6 @@ CRITICAL = 2
 UNKNOWN  = 3
 
 mylogger = logging.getLogger(__name__)
-logging.getLogger("requests").setLevel(logging.WARNING)
-
 
 def debug_factory(logger, debug_level):
    """
@@ -233,6 +232,11 @@ def main():
    else:
        log_level = logging.INFO
 
+   #Request Debug Level
+   logging.getLogger("urllib3").setLevel(logging.WARNING)
+   if verbose:
+        logging.getLogger("urllib3").setLevel(logging.DEBUG)
+
    # Add custom level unknown
    logging.addLevelName(logging.DEBUG+1, 'UNKOWN')
    setattr(mylogger, 'unkown', debug_factory(mylogger, logging.DEBUG+1))
@@ -260,6 +264,7 @@ def main():
      mylogger.debug("URL: %s" % (url))
      res = requests.get(url, verify=False, timeout=timeout)
      end = time.time()
+     mylogger.debug("STATUS_CODE: %s" % (res.status_code))
 
      if res.status_code != 200:
         mylogger.critical(str(res.status_code) + " Found")

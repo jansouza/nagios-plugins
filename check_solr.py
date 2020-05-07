@@ -3,7 +3,7 @@
 # ======================= SUMMARY ================================
 #
 # Program : check_solr.py
-# Version : 0.2
+# Version : 0.3
 # Date    : Sep 17, 2019
 # Author  : Jan Souza - me@jansouza.com
 #
@@ -37,6 +37,7 @@
 #
 #  [0.1 - Sep 2019] First version of the code.
 #  [0.2 - Sep 2019] Fix Authentication argument
+#  [0.3 - May 2020] Fix Request lib Log Level
 #
 #
 #  TODO
@@ -63,7 +64,6 @@ CRITICAL = 2
 UNKNOWN  = 3
 
 mylogger = logging.getLogger(__name__)
-logging.getLogger("requests").setLevel(logging.WARNING)
 
 def debug_factory(logger, debug_level):
    """
@@ -129,6 +129,11 @@ def main():
        log_level = logging.DEBUG
    else:
        log_level = logging.INFO
+
+   #Request Debug Level
+   logging.getLogger("urllib3").setLevel(logging.WARNING)
+   if verbose:
+       logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
    # Add custom level unknown
    logging.addLevelName(logging.DEBUG+1, 'UNKOWN')
